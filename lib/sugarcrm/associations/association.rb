@@ -78,7 +78,9 @@ module SugarCRM
       # Use the link_field attribute "module"
       if @attributes["module"].length > 0
         module_name = SugarCRM::Module.find(@attributes["module"], @owner.class.session)
-        return namespace.const_get(module_name.klass) if namespace.const_defined? module_name.klass
+        if module_name.present?
+          return namespace.const_get(module_name.klass) if namespace.const_defined? module_name.klass
+        end
       end
       # Use the "relationship" target
       if @attributes["relationship"].length > 0
